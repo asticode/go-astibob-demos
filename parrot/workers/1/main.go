@@ -41,7 +41,12 @@ func main() {
 	}, func(m *astibob.Message) (err error) {
 		o.Do(func() {
 			// Send message
-			if err = w.SendMessages("Worker #1", "Text to Speech", text_to_speech.NewSayMessage("Hello world")); err != nil {
+			if err = w.SendMessage(worker.MessageOptions{
+				Message:     text_to_speech.NewSayMessage("Hello world"),
+				Runnable:    "Text to Speech",
+				Synchronous: true,
+				Worker:      "Worker #1",
+			}); err != nil {
 				err = errors.Wrap(err, "main: sending message failed")
 				return
 			}

@@ -13,7 +13,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const wd = "parrot/tmp/deepspeech"
+const wd = "tmp/deepspeech"
 
 func main() {
 	// Parse flags
@@ -91,14 +91,18 @@ func main() {
 			Listenable: audio_input.NewListenable(audio_input.ListenableOptions{
 				OnSamples: func(from astibob.Identifier, samples []int, bitDepth, numChannels, sampleRate int, maxSilenceAudioLevel float64) (err error) {
 					// Send message
-					if err = w.SendMessages("Worker #3", "Speech to Text", speech_to_text.NewSamplesMessage(
-						from,
-						samples,
-						bitDepth,
-						numChannels,
-						sampleRate,
-						maxSilenceAudioLevel,
-					)); err != nil {
+					if err = w.SendMessage(worker.MessageOptions{
+						Message: speech_to_text.NewSamplesMessage(
+							from,
+							samples,
+							bitDepth,
+							numChannels,
+							sampleRate,
+							maxSilenceAudioLevel,
+						),
+						Runnable: "Speech to Text",
+						Worker:   "Worker #3",
+					}); err != nil {
 						err = errors.Wrap(err, "main: sending message failed")
 						return
 					}
@@ -113,7 +117,12 @@ func main() {
 			Listenable: speech_to_text.NewListenable(speech_to_text.ListenableOptions{
 				OnText: func(from astibob.Identifier, text string) (err error) {
 					// Send message
-					if err = w.SendMessages("Worker #1", "Text to Speech", text_to_speech.NewSayMessage(text)); err != nil {
+					if err = w.SendMessage(worker.MessageOptions{
+						Message:     text_to_speech.NewSayMessage(text),
+						Runnable:    "Text to Speech",
+						Synchronous: true,
+						Worker:      "Worker #1",
+					}); err != nil {
 						err = errors.Wrap(err, "main: sending message failed")
 						return
 					}
