@@ -118,10 +118,9 @@ func main() {
 				OnText: func(from astibob.Identifier, text string) (err error) {
 					// Send message
 					if err = w.SendMessage(worker.MessageOptions{
-						Message:     text_to_speech.NewSayMessage(text),
-						Runnable:    "Text to Speech",
-						Synchronous: true,
-						Worker:      "Worker #1",
+						Message:  text_to_speech.NewSayMessage(text),
+						Runnable: "Text to Speech",
+						Worker:   "Worker #1",
 					}); err != nil {
 						err = errors.Wrap(err, "main: sending message failed")
 						return
