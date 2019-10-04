@@ -13,7 +13,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const wd = "tmp/deepspeech"
+const wd = "tmp"
 
 func main() {
 	// Parse flags
@@ -45,11 +45,11 @@ func main() {
 		PrepareDirPath: wd + "/prepare",
 		TrainingArgs: map[string]string{
 			"checkpoint_dir":   wd + "/model/custom/checkpoints",
-			"dev_batch_size":   "4",
+			"dev_batch_size":   "1",
 			"export_dir":       wd + "/model/custom",
 			"noearly_stop":     "",
-			"test_batch_size":  "4",
-			"train_batch_size": "20",
+			"test_batch_size":  "1",
+			"train_batch_size": "1",
 
 			// Mozilla values
 			"learning_rate": "0.0001",

@@ -1,4 +1,4 @@
-Official [astibob](https://github.com/asticode/go-astibob) demos:
+Here's the list of official [astibob](https://github.com/asticode/go-astibob) demos:
 
 | Name | Code | Medium Article |
 | ---- | ---- | -------------- |
