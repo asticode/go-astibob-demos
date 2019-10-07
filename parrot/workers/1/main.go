@@ -32,11 +32,7 @@ func main() {
 	// Say "Hello world" when the runnable has started
 	o := &sync.Once{}
 	w.On(astibob.DispatchConditions{
-		From: &astibob.Identifier{
-			Name:   astiptr.Str("Text to Speech"),
-			Type:   astibob.RunnableIdentifierType,
-			Worker: astiptr.Str("Worker #1"),
-		},
+		From: astibob.NewRunnableIdentifier("Text to Speech", "Worker #1"),
 		Name: astiptr.Str(astibob.RunnableStartedMessage),
 	}, func(m *astibob.Message) (err error) {
 		o.Do(func() {
