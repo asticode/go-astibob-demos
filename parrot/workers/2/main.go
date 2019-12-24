@@ -38,11 +38,11 @@ func main() {
 
 	// Create default stream
 	s, err := p.NewDefaultStream(portaudio.StreamOptions{
-		BitDepth:             32,
-		BufferLength:         5000,
-		MaxSilenceAudioLevel: 5 * 1e6,
-		NumInputChannels:     2,
-		SampleRate:           44100,
+		BitDepth:         32,
+		BufferLength:     5000,
+		MaxSilenceLevel:  5 * 1e6,
+		NumInputChannels: 2,
+		SampleRate:       44100,
 	})
 	if err != nil {
 		astilog.Fatal(errors.Wrap(err, "main: creating default stream failed"))

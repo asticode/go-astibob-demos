@@ -40,8 +40,6 @@ func main() {
 		LMPath:         mp + "/lm.binary",
 		LMWeight:       0.75,
 		ModelPath:      mp + "/output_graph.pb",
-		NCep:           26,
-		NContext:       9,
 		PrepareDirPath: wd + "/prepare",
 		TrainingArgs: map[string]string{
 			"checkpoint_dir":   wd + "/model/custom/checkpoints",
@@ -89,7 +87,7 @@ func main() {
 		// Forwards audio samples to the "Speech to Text" ability
 		worker.Listenable{
 			Listenable: audio_input.NewListenable(audio_input.ListenableOptions{
-				OnSamples: func(from astibob.Identifier, samples []int, bitDepth, numChannels, sampleRate int, maxSilenceAudioLevel float64) (err error) {
+				OnSamples: func(from astibob.Identifier, samples []int, bitDepth, numChannels, sampleRate int, maxSilenceLevel float64) (err error) {
 					// Send message
 					if err = w.SendMessage(worker.MessageOptions{
 						Message: speech_to_text.NewSamplesMessage(
@@ -98,7 +96,7 @@ func main() {
 							bitDepth,
 							numChannels,
 							sampleRate,
-							maxSilenceAudioLevel,
+							maxSilenceLevel,
 						),
 						Runnable: "Speech to Text",
 						Worker:   "Worker #3",

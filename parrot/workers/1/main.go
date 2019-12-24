@@ -8,8 +8,8 @@ import (
 	"github.com/asticode/go-astibob/abilities/text_to_speech"
 	"github.com/asticode/go-astibob/abilities/text_to_speech/speak"
 	"github.com/asticode/go-astibob/worker"
+	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilog"
-	astiptr "github.com/asticode/go-astitools/ptr"
 	"github.com/pkg/errors"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	o := &sync.Once{}
 	w.On(astibob.DispatchConditions{
 		From: astibob.NewRunnableIdentifier("Text to Speech", "Worker #1"),
-		Name: astiptr.Str(astibob.RunnableStartedMessage),
+		Name: astikit.StrPtr(astibob.RunnableStartedMessage),
 	}, func(m *astibob.Message) (err error) {
 		o.Do(func() {
 			// Send message
