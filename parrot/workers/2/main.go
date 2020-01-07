@@ -24,11 +24,11 @@ func main() {
 			Username: "admin",
 		},
 		Server: astibob.ServerOptions{Addr: "127.0.0.1:4002"},
-	})
+	}, astilog.GetLogger())
 	defer w.Close()
 
 	// Create portaudio
-	p := portaudio.New()
+	p := portaudio.New(astilog.GetLogger())
 
 	// Initialize portaudio
 	if err := p.Initialize(); err != nil {
@@ -49,7 +49,7 @@ func main() {
 	}
 
 	// Create runnable
-	r := audio_input.NewRunnable("Audio input", s)
+	r := audio_input.NewRunnable("Audio input", s, astilog.GetLogger())
 
 	// Register runnables
 	w.RegisterRunnables(worker.Runnable{

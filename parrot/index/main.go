@@ -21,7 +21,7 @@ func main() {
 			Password: "admin",
 			Username: "admin",
 		},
-	})
+	}, astilog.GetLogger())
 	if err != nil {
 		astilog.Fatal(errors.Wrap(err, "main: creating index failed"))
 	}

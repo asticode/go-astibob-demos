@@ -26,7 +26,7 @@ func main() {
 			Username: "admin",
 		},
 		Server: astibob.ServerOptions{Addr: "127.0.0.1:4001"},
-	})
+	}, astilog.GetLogger())
 	defer w.Close()
 
 	// Say "Hello world" when the runnable has started
@@ -50,7 +50,7 @@ func main() {
 	})
 
 	// Create speaker
-	s := speak.New(speak.Options{})
+	s := speak.New(speak.Options{}, astilog.GetLogger())
 
 	// Initialize speaker
 	if err := s.Initialize(); err != nil {
@@ -60,7 +60,7 @@ func main() {
 
 	// Register runnables
 	w.RegisterRunnables(worker.Runnable{
-		Runnable: text_to_speech.NewRunnable("Text to Speech", s),
+		Runnable: text_to_speech.NewRunnable("Text to Speech", s, astilog.GetLogger()),
 	})
 
 	// Handle signals

@@ -28,7 +28,7 @@ func main() {
 			Username: "admin",
 		},
 		Server: astibob.ServerOptions{Addr: "127.0.0.1:4003"},
-	})
+	}, astilog.GetLogger())
 	defer w.Close()
 
 	// Create deepspeech
@@ -57,7 +57,7 @@ func main() {
 		},
 		TriePath:             mp + "/trie",
 		ValidWordCountWeight: 1.85,
-	})
+	}, astilog.GetLogger())
 	defer d.Close()
 
 	// Initialize deepspeech
@@ -66,7 +66,7 @@ func main() {
 	}
 
 	// Create runnable
-	r := speech_to_text.NewRunnable("Speech to Text", d, speech_to_text.RunnableOptions{
+	r := speech_to_text.NewRunnable("Speech to Text", d, astilog.GetLogger(), speech_to_text.RunnableOptions{
 		SpeechesDirPath: wd + "/speeches",
 	})
 
