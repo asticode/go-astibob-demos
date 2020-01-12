@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/abilities/audio_input"
 	"github.com/asticode/go-astibob/abilities/audio_input/portaudio"
 	"github.com/asticode/go-astibob/worker"
-	"github.com/asticode/go-astilog"
 )
 
 func main() {
@@ -16,8 +16,7 @@ func main() {
 	flag.Parse()
 
 	// Create logger
-	l := astilog.NewFromFlags()
-	defer l.Close()
+	l := log.New(log.Writer(), log.Prefix(), log.Flags())
 
 	// Create worker
 	w := worker.New("Worker #2", worker.Options{

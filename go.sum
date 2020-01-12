@@ -7,8 +7,6 @@ github.com/asticode/go-astideepspeech v0.6.2/go.mod h1:SJCkfh5e79BgSQqKEEAtfjZT0
 github.com/asticode/go-astikit v0.1.0/go.mod h1:h4ly7idim1tNhaVkdVBeXQZEE3L0xblP7fCWbgwipF0=
 github.com/asticode/go-astikit v0.2.0 h1:QonRVJKQB2btMYZGW+YkibMDOXje2F49RLW4UCnyjns=
 github.com/asticode/go-astikit v0.2.0/go.mod h1:h4ly7idim1tNhaVkdVBeXQZEE3L0xblP7fCWbgwipF0=
-github.com/asticode/go-astilog v1.5.0 h1:r6DszWZFeq/FLvcc4adgmiHE+vauw2TDt8uk3sYrT/g=
-github.com/asticode/go-astilog v1.5.0/go.mod h1:+Dc9efv6zuTdSPWvtb78ox+CniBj3f7WgBnLGYnJ0pU=
 github.com/asticode/go-astiws v1.2.0 h1:uzF9yPPDPk/5Rar4fCwqjD+6lYsJZROTllXO6PZ+oh0=
 github.com/asticode/go-astiws v1.2.0/go.mod h1:xDs2lfL41R0sUXYniZv7SMFY2VedPpfeydCdpaewgik=
 github.com/cheekybits/is v0.0.0-20150225183255-68e9c0620927/go.mod h1:h/aW8ynjgkuj+NQRlZcDbAbM1ORAbXjXX77sX7T289U=

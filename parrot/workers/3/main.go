@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/abilities/audio_input"
@@ -10,7 +11,6 @@ import (
 	"github.com/asticode/go-astibob/abilities/speech_to_text/deepspeech"
 	"github.com/asticode/go-astibob/abilities/text_to_speech"
 	"github.com/asticode/go-astibob/worker"
-	"github.com/asticode/go-astilog"
 )
 
 const wd = "tmp"
@@ -20,8 +20,7 @@ func main() {
 	flag.Parse()
 
 	// Create logger
-	l := astilog.NewFromFlags()
-	defer l.Close()
+	l := log.New(log.Writer(), log.Prefix(), log.Flags())
 
 	// Create worker
 	w := worker.New("Worker #3", worker.Options{

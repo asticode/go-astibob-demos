@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/index"
-	"github.com/asticode/go-astilog"
 )
 
 func main() {
@@ -14,8 +14,7 @@ func main() {
 	flag.Parse()
 
 	// Create logger
-	l := astilog.NewFromFlags()
-	defer l.Close()
+	l := log.New(log.Writer(), log.Prefix(), log.Flags())
 
 	// Create index
 	i, err := index.New(index.Options{
