@@ -2,17 +2,20 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/index"
 	"github.com/asticode/go-astilog"
-	"github.com/pkg/errors"
 )
 
 func main() {
 	// Parse flags
 	flag.Parse()
-	astilog.FlagInit()
+
+	// Create logger
+	l := astilog.NewFromFlags()
+	defer l.Close()
 
 	// Create index
 	i, err := index.New(index.Options{
@@ -21,9 +24,9 @@ func main() {
 			Password: "admin",
 			Username: "admin",
 		},
-	}, astilog.GetLogger())
+	}, l)
 	if err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: creating index failed"))
+		l.Fatal(fmt.Errorf("main: creating index failed: %w", err))
 	}
 	defer i.Close()
 

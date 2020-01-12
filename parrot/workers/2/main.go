@@ -2,19 +2,22 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/abilities/audio_input"
 	"github.com/asticode/go-astibob/abilities/audio_input/portaudio"
 	"github.com/asticode/go-astibob/worker"
 	"github.com/asticode/go-astilog"
-	"github.com/pkg/errors"
 )
 
 func main() {
 	// Parse flags
 	flag.Parse()
-	astilog.FlagInit()
+
+	// Create logger
+	l := astilog.NewFromFlags()
+	defer l.Close()
 
 	// Create worker
 	w := worker.New("Worker #2", worker.Options{
@@ -24,15 +27,15 @@ func main() {
 			Username: "admin",
 		},
 		Server: astibob.ServerOptions{Addr: "127.0.0.1:4002"},
-	}, astilog.GetLogger())
+	}, l)
 	defer w.Close()
 
 	// Create portaudio
-	p := portaudio.New(astilog.GetLogger())
+	p := portaudio.New(l)
 
 	// Initialize portaudio
 	if err := p.Initialize(); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: initializing portaudio failed"))
+		l.Fatal(fmt.Errorf("main: initializing portaudio failed: %w", err))
 	}
 	defer p.Close()
 
@@ -45,11 +48,11 @@ func main() {
 		SampleRate:       44100,
 	})
 	if err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: creating default stream failed"))
+		l.Fatal(fmt.Errorf("main: creating default stream failed: %w", err))
 	}
 
 	// Create runnable
-	r := audio_input.NewRunnable("Audio input", s, astilog.GetLogger())
+	r := audio_input.NewRunnable("Audio input", s, l)
 
 	// Register runnables
 	w.RegisterRunnables(worker.Runnable{

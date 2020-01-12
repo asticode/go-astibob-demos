@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/asticode/go-astibob"
 	"github.com/asticode/go-astibob/abilities/audio_input"
@@ -10,7 +11,6 @@ import (
 	"github.com/asticode/go-astibob/abilities/text_to_speech"
 	"github.com/asticode/go-astibob/worker"
 	"github.com/asticode/go-astilog"
-	"github.com/pkg/errors"
 )
 
 const wd = "tmp"
@@ -18,7 +18,10 @@ const wd = "tmp"
 func main() {
 	// Parse flags
 	flag.Parse()
-	astilog.FlagInit()
+
+	// Create logger
+	l := astilog.NewFromFlags()
+	defer l.Close()
 
 	// Create worker
 	w := worker.New("Worker #3", worker.Options{
@@ -28,7 +31,7 @@ func main() {
 			Username: "admin",
 		},
 		Server: astibob.ServerOptions{Addr: "127.0.0.1:4003"},
-	}, astilog.GetLogger())
+	}, l)
 	defer w.Close()
 
 	// Create deepspeech
@@ -57,22 +60,22 @@ func main() {
 		},
 		TriePath:             mp + "/trie",
 		ValidWordCountWeight: 1.85,
-	}, astilog.GetLogger())
+	}, l)
 	defer d.Close()
 
 	// Initialize deepspeech
 	if err := d.Init(); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: initializing deepspeech failed"))
+		l.Fatal(fmt.Errorf("main: initializing deepspeech failed: %w", err))
 	}
 
 	// Create runnable
-	r := speech_to_text.NewRunnable("Speech to Text", d, astilog.GetLogger(), speech_to_text.RunnableOptions{
+	r := speech_to_text.NewRunnable("Speech to Text", d, l, speech_to_text.RunnableOptions{
 		SpeechesDirPath: wd + "/speeches",
 	})
 
 	// Initialize runnable
 	if err := r.Init(); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: initializing runnable failed"))
+		l.Fatal(fmt.Errorf("main: initializing runnable failed: %w", err))
 	}
 	defer r.Close()
 
@@ -101,7 +104,7 @@ func main() {
 						Runnable: "Speech to Text",
 						Worker:   "Worker #3",
 					}); err != nil {
-						err = errors.Wrap(err, "main: sending message failed")
+						err = fmt.Errorf("main: sending message failed: %w", err)
 						return
 					}
 					return
@@ -120,7 +123,7 @@ func main() {
 						Runnable: "Text to Speech",
 						Worker:   "Worker #1",
 					}); err != nil {
-						err = errors.Wrap(err, "main: sending message failed")
+						err = fmt.Errorf("main: sending message failed: %w", err)
 						return
 					}
 					return
